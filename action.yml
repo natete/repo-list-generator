@@ -26,6 +26,11 @@ inputs:
       The PAT is used to generate repository list for user or organization.
     required: false
     default: ${{ github.token }}
+  app_token:
+    description: >
+      Set up the App Private key.
+      The key is used to generate repository list for user or organization.
+    required: false
   block_list:
     description: >
       Set up the block_list for repoList.

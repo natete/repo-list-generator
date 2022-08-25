@@ -16671,7 +16671,8 @@ const { join } = __nccwpck_require__(1017);
 const { writeFileSync } = __nccwpck_require__(7147);
 const _user = getInput('user').split(`/`).shift();
 const my_token = getInput('my_token');
-const octokit = new getOctokit(my_token);
+const app_token = getInput('app_token');
+const octokit = app_token == null ? new getOctokit(my_token) : new getOctokit(app_token);
 const asyncFilter = async (arr, predicate) =>
   Promise.all(arr.map(predicate)).then(results => arr.filter((_v, index) => results[index]));
 
@@ -16688,7 +16689,7 @@ let checkEmptyRepo = async function (name) {
 
 let getAll = async function (user, page = 10) {
   try {
-    var listFunction = octokit.rest.repos.listForAuthenticatedUser;
+    var listFunction = app_token == null ? octokit.rest.repos.listForAuthenticatedUser : octokit.rest.apps.listReposAccessibleToInstallation;
     await listFunction();
   } catch (error) {
     if (error.message === 'Resource not accessible by integration') {
